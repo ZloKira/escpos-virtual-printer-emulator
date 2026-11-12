@@ -31,13 +31,14 @@ impl EscPosEmulatorApp {
         emulator_state: std::sync::Arc<tokio::sync::Mutex<EmulatorState>>,
         tokio_handle: tokio::runtime::Handle,
     ) -> Self {
+        let settings_panel = SettingsPanel::new(&emulator_state, &tokio_handle);
         Self {
             emulator_state,
             tokio_handle,
             selected_tab: Tab::Receipt,
             receipt_viewer: ReceiptViewer::new(),
             command_log: CommandLog::new(),
-            settings_panel: SettingsPanel::default(),
+            settings_panel,
             serial_handle: None,
         }
     }
@@ -53,9 +54,9 @@ impl EscPosEmulatorApp {
     fn show(&mut self, ctx: &eframe::egui::Context) {
         TopBottomPanel::top("tabs").show(ctx, |ui| {
             ui.horizontal(|ui| {
-                ui.selectable_value(&mut self.selected_tab, Tab::Receipt, "🖨️ Receipt");
-                ui.selectable_value(&mut self.selected_tab, Tab::Commands, "📋 Commands");
-                ui.selectable_value(&mut self.selected_tab, Tab::Settings, "⚙️ Settings");
+                ui.selectable_value(&mut self.selected_tab, Tab::Receipt, "Receipt");
+                ui.selectable_value(&mut self.selected_tab, Tab::Commands, "Commands");
+                ui.selectable_value(&mut self.selected_tab, Tab::Settings, "Settings");
             });
         });
 

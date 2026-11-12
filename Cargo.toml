@@ -37,3 +37,6 @@ opt-level = 3
 [[bin]]
 name = "escpos_emulator"
 path = "src/main.rs"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61", features = ["Win32_NetworkManagement_IpHelper"] }

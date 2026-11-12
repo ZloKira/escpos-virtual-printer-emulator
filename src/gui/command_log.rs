@@ -27,7 +27,7 @@ impl CommandLog {
     }
 
     pub fn show(&mut self, ui: &mut Ui, emulator_state: &Arc<Mutex<EmulatorState>>) {
-        ui.heading("📋 Command Log");
+        ui.heading("Command Log");
         ui.separator();
 
         // Controls
@@ -38,7 +38,7 @@ impl CommandLog {
             ui.label("Filter:");
             ui.text_edit_singleline(&mut self.filter_text);
             
-            if ui.button("🗑️ Clear").clicked() {
+            if ui.button("Clear").clicked() {
                 if let Ok(mut state) = emulator_state.try_lock() {
                     state.clear_history();
                 }
@@ -116,56 +116,56 @@ impl CommandLog {
                         format!("{}h {}m", duration.as_secs() / 3600, (duration.as_secs() % 3600) / 60)
                     };
                     
-                    ui.label(format!("⏰ {}", time_str));
+                    ui.label(format!("{}", time_str));
                 }
             }
 
             // Command
             let command_text = match &entry.command {
                 crate::escpos::commands::EscPosCommand::Text(text) => {
-                    format!("📝 {}", text)
+                    format!("Text: {}", text)
                 }
                 crate::escpos::commands::EscPosCommand::NewLine => {
                     "↵ New line".to_string()
                 }
                 crate::escpos::commands::EscPosCommand::SetFont(font) => {
-                    format!("🔤 Font: {:?}", font)
+                    format!("Font: {:?}", font)
                 }
                 crate::escpos::commands::EscPosCommand::SetJustification(just) => {
-                    format!("📐 Justification: {:?}", just)
+                    format!("Justification: {:?}", just)
                 }
                 crate::escpos::commands::EscPosCommand::SetEmphasis(enabled) => {
-                    format!("💪 Emphasis: {}", if *enabled { "ON" } else { "OFF" })
+                    format!("Emphasis: {}", if *enabled { "ON" } else { "OFF" })
                 }
                 crate::escpos::commands::EscPosCommand::SetUnderline(enabled) => {
-                    format!("➖ Underline: {}", if *enabled { "ON" } else { "OFF" })
+                    format!("Underline: {}", if *enabled { "ON" } else { "OFF" })
                 }
                 crate::escpos::commands::EscPosCommand::SetItalic(enabled) => {
-                    format!("📝 Italic: {}", if *enabled { "ON" } else { "OFF" })
+                    format!("Italic: {}", if *enabled { "ON" } else { "OFF" })
                 }
                 crate::escpos::commands::EscPosCommand::CutPaper => {
-                    "✂️ Paper cut".to_string()
+                    "Paper cut".to_string()
                 }
                 crate::escpos::commands::EscPosCommand::PrintImage(_) => {
-                    "🖼️ Bit Image (ESC *)".to_string()
+                    "Bit Image (ESC *)".to_string()
                 }
                 crate::escpos::commands::EscPosCommand::PrintRasterImage { width_bytes, height, .. } => {
-                    format!("🖼️ Raster Image (GS v 0) {}×{}", width_bytes * 8, height)
+                    format!("Raster Image (GS v 0) {}×{}", width_bytes * 8, height)
                 }
                 crate::escpos::commands::EscPosCommand::SetCodepage(cp) => {
-                    format!("🌐 Codepage: {}", cp)
+                    format!("Codepage: {}", cp)
                 }
                 crate::escpos::commands::EscPosCommand::SetLineHeight(height) => {
-                    format!("📏 Line height: {}", height)
+                    format!("Line height: {}", height)
                 }
                 crate::escpos::commands::EscPosCommand::SetFontSize(size) => {
-                    format!("🔤 Font size: {}", size)
+                    format!("Font size: {}", size)
                 }
                 crate::escpos::commands::EscPosCommand::Unknown(_) => {
-                    "❓ Unknown command".to_string()
+                    "Unknown command".to_string()
                 }
                 _ => {
-                    format!("⚙️ {:?}", entry.command)
+                    format!("{:?}", entry.command)
                 }
             };
 
@@ -178,7 +178,7 @@ impl CommandLog {
                     .collect::<Vec<_>>()
                     .join(" ");
                 
-                ui.label(format!("🔢 Data: {}", hex_data));
+                ui.label(format!("Data: {}", hex_data));
             }
         });
     }

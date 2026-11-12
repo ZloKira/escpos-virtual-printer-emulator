@@ -7,10 +7,21 @@ use tokio::net::{TcpListener, TcpStream};
 use tokio::sync::Mutex;
 use tracing::{error, info, warn};
 
-pub async fn start_server(emulator_state: Arc<Mutex<EmulatorState>>) -> Result<()> {
-    let listener = TcpListener::bind("127.0.0.1:9100").await?;
-    info!("ESC/POS Emulator server listening on 127.0.0.1:9100 (Raw TCP & Web HTTP/CORS)");
+use std::net::Ipv4Addr;
 
+pub const PORT: u16 = 9100;
+
+pub fn bind_listener(
+    ip: Ipv4Addr,
+    runtime: &tokio::runtime::Handle,
+) -> std::io::Result<TcpListener> {
+    let listener = std::net::TcpListener::bind((ip, PORT))?;
+    listener.set_nonblocking(true)?;
+    let _guard = runtime.enter();
+    TcpListener::from_std(listener)
+}
+
+pub async fn serve(listener: TcpListener, emulator_state: Arc<Mutex<EmulatorState>>) {
     loop {
         match listener.accept().await {
             Ok((socket, addr)) => {

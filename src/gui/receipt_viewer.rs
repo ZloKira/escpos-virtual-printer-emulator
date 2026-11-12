@@ -60,18 +60,18 @@ impl ReceiptViewer {
                 ui.selectable_value(
                     &mut self.selected_sub_tab,
                     ReceiptSubTab::RealPreview,
-                    "📄 Real Preview",
+                    "Real Preview",
                 );
                 ui.selectable_value(
                     &mut self.selected_sub_tab,
                     ReceiptSubTab::RawText,
-                    "📝 Raw Text",
+                    "Raw Text",
                 );
 
                 ui.separator();
 
                 // Paper width selector
-                ui.label(RichText::new("📏 Paper Width:").strong());
+                ui.label(RichText::new("Paper Width:").strong());
                 if let Ok(state) = emulator_state.try_lock() {
                     let current_pw = state.printer_state.paper_width.clone();
                     drop(state);
@@ -100,7 +100,7 @@ impl ReceiptViewer {
                     ui.add(egui::Slider::new(&mut self.zoom_factor, 0.75..=1.40).text("Zoom"));
                 }
 
-                if ui.button("🗑️ Clear").on_hover_text("Clear current receipt buffer").clicked() {
+                if ui.button("Clear").on_hover_text("Clear current receipt buffer").clicked() {
                     if let Ok(mut state) = emulator_state.try_lock() {
                         state.clear_printer_buffer();
                     }
@@ -168,7 +168,6 @@ impl ReceiptViewer {
             .show(ui, |ui| {
                 ui.set_width(paper_width);
                 ui.horizontal(|ui| {
-                    ui.colored_label(Color32::from_rgb(46, 204, 113), "●");
                     ui.label(
                         RichText::new(format!(
                             "PRINTER DISPENSER | {:?} ({} dots)",
@@ -228,7 +227,7 @@ impl ReceiptViewer {
                     ui.add_space(30.0);
                     ui.vertical_centered(|ui| {
                         ui.label(
-                            RichText::new("📄 Thermal Paper Ready")
+                            RichText::new("Thermal Paper Ready")
                                 .color(Color32::from_rgb(120, 120, 130))
                                 .size(16.0 * self.zoom_factor)
                                 .strong(),
@@ -266,7 +265,7 @@ impl ReceiptViewer {
                 ui.add_space(16.0 * self.zoom_factor);
                 ui.vertical_centered(|ui| {
                     ui.label(
-                        RichText::new("✂ ----------------- TEAR HERE ----------------- ✂")
+                        RichText::new("----------------- TEAR HERE ----------------- ")
                             .color(Color32::from_rgb(180, 180, 190))
                             .monospace()
                             .small(),
@@ -318,7 +317,7 @@ impl ReceiptViewer {
                     .inner_margin(Margin::same(8.0))
                     .show(ui, |ui| {
                         ui.label(
-                            RichText::new(" 📱 QR CODE ")
+                            RichText::new(" QR CODE ")
                                 .strong()
                                 .monospace()
                                 .color(Color32::BLACK),
@@ -396,7 +395,7 @@ impl ReceiptViewer {
         });
         ui.vertical_centered(|ui| {
             ui.label(
-                RichText::new("✂ --- CUT PAPER --- ✂")
+                RichText::new("--- CUT PAPER --- ")
                     .small()
                     .monospace()
                     .color(Color32::from_rgb(150, 150, 160)),
@@ -420,11 +419,11 @@ impl ReceiptViewer {
 
         ui.group(|ui| {
             ui.horizontal(|ui| {
-                ui.label(format!("📄 Paper: {:?}", printer_state.paper_width));
-                ui.label(format!("🔤 Font: {:?}", printer_state.current_font));
-                ui.label(format!("📐 Align: {:?}", printer_state.justification));
+                ui.label(format!("Paper: {:?}", printer_state.paper_width));
+                ui.label(format!("Font: {:?}", printer_state.current_font));
+                ui.label(format!("Align: {:?}", printer_state.justification));
                 if printer_state.codepage != 0 {
-                    ui.label(format!("🌐 CP: {}", printer_state.codepage));
+                    ui.label(format!("CP: {}", printer_state.codepage));
                 }
             });
 
@@ -474,7 +473,7 @@ impl ReceiptViewer {
             }
 
             ui.separator();
-            ui.label("✂️ Cut line");
+            ui.label("Cut line");
         });
     }
 }
